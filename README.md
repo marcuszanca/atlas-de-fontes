@@ -7,8 +7,24 @@ Filtre por letra, categoria, tema, tipo de arquivo, idioma e acesso, e abra a bu
 - Instalável no celular e no computador (PWA) e funciona offline
 - Tema preto e branco, claro ou escuro conforme o aparelho
 
+## Publicar no GitHub Pages
 
-## como testar localmente
+1. Crie um repositório novo no GitHub (por exemplo `atlas-de-fontes`).
+2. Envie estes arquivos:
+   ```bash
+   git init
+   git add .
+   git commit -m "Primeira versão"
+   git branch -M main
+   git remote add origin https://github.com/SEU-USUARIO/atlas-de-fontes.git
+   git push -u origin main
+   ```
+3. No GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, pasta `/ (root)`, e salve.
+4. Em cerca de um minuto o site estará em `https://SEU-USUARIO.github.io/atlas-de-fontes/`.
+
+Sem usar o terminal: no repositório, clique em **Add file → Upload files**, arraste o conteúdo da pasta e confirme.
+
+## Testar localmente
 
 ```bash
 python3 -m http.server 8000

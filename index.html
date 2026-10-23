@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Diretório de fontes legais de mangás, livros, acervos e artigos, com busca e filtros.">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Atlas de Fontes: Mangás, Livros e Artigos</title>
+<style>
+:root{--bg:#fff;--tx:#000;--mu:#5c5c5c;--ln:#000;--soft:#f2f2f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--tx:#fff;--mu:#a8a8a8;--ln:#fff;--soft:#181818}}
+:root[data-theme="dark"]{--bg:#000;--tx:#fff;--mu:#a8a8a8;--ln:#fff;--soft:#181818}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif}
+main{max-width:980px;margin:0 auto;padding:28px 16px 56px}
+h1{font-size:2rem;margin:0 0 4px;letter-spacing:-.02em}
+.sub{color:var(--mu);margin:0 0 20px}
+button,input{font:inherit;color:var(--tx)}
+.lab{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:20px 0 8px}
+#q{width:100%;padding:16px 18px;border:2px solid var(--ln);border-radius:12px;background:var(--bg);font-size:1.1rem}
+#q:focus{outline:3px solid var(--mu);outline-offset:2px}
+.hint{color:var(--mu);font-size:.85rem;margin:6px 2px 0}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+.tab{flex:1 0 auto;padding:12px 18px;border:2px solid var(--ln);border-radius:10px;background:var(--bg);cursor:pointer;font-weight:600;white-space:nowrap}
+.tab small{opacity:.65;font-weight:400;margin-left:6px}
+.tab.on,.chip.on,.let.on{background:var(--tx);color:var(--bg)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{padding:6px 13px;border:1px solid var(--ln);border-radius:99px;background:var(--bg);cursor:pointer;font-size:.88rem}
+.chip:hover,.tab:hover,.let:hover{background:var(--soft)}.chip.on:hover,.tab.on:hover,.let.on:hover{background:var(--tx)}
+.gl{font-size:.8rem;color:var(--mu);margin-right:4px;min-width:64px}
+.frow{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:10px}
+details{margin-top:6px}summary{cursor:pointer;font-weight:600;font-size:.9rem;padding:6px 0}
+.abc{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px}
+.let{flex:0 0 auto;min-width:34px;padding:6px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);cursor:pointer;font-size:.85rem}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:26px 0 14px;padding-top:16px;border-top:2px solid var(--ln)}
+#cnt{font-weight:700}
+.btn{padding:9px 14px;border:2px solid var(--ln);border-radius:9px;background:var(--bg);cursor:pointer;text-decoration:none;font-size:.9rem;font-weight:600;display:inline-block;color:var(--tx)}
+.btn.f{background:var(--tx);color:var(--bg)}.btn:hover{opacity:.8}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.card{border:1px solid var(--ln);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--bg)}
+.card:hover{border-width:2px;padding:15px}
+.k{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.card h3{margin:0;font-size:1.15rem}.card p{margin:0;color:var(--mu);font-size:.92rem}
+.meta{font-size:.82rem}.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.empty{padding:48px 12px;text-align:center;color:var(--mu);border:1px dashed var(--ln);border-radius:14px}
+.note{margin-top:32px;font-size:.82rem;color:var(--mu)}
+</style>
+</head>
+<body>
+<main>
+<h1>Atlas de Fontes</h1>
+<p class="sub">Encontre onde ler mangás, livros e artigos, em fontes legais e abertas.</p>
+<label class="lab" for="q">1. O que você procura?</label>
+<input id="q" type="search" placeholder="Digite um título, autor ou assunto (opcional)" autocomplete="off">
+<p class="hint">Com um termo digitado, cada fonte ganha o botão “Buscar”, que abre os resultados direto no site dela.</p>
+<span class="lab">2. Escolha o tipo de conteúdo</span>
+<div class="tabs" id="tabs"></div>
+<span class="lab">3. Refine (opcional)</span>
+<div id="f1"></div>
+<details><summary>Mais filtros: idioma e acesso</summary><div id="f2"></div></details>
+<span class="lab">Inicial do nome da fonte</span>
+<div class="abc" id="abc"></div>
+<div class="bar"><span id="cnt"></span><span><button class="btn" id="clr">Limpar tudo</button> <button class="btn f" id="all">Buscar em várias fontes</button></span></div>
+<div class="grid" id="grid"></div>
+<p class="note">Os mangás listados vêm de plataformas oficiais ou licenciadas. O MangaDex reúne obras oficiais e de comunidade, então confira a licença de cada título. O Periódicos CAPES exige login institucional.</p>
+</main>
+<script>
+const D=[
+// n,cat,temas,arquivos,idioma,acesso,url,busca,desc
+["MANGA Plus","Mangá",["Arte e HQ"],["Imagem"],"Multi","Gratuito","https://mangaplus.shueisha.co.jp/",null,"Plataforma oficial da Shueisha com capítulos simultâneos ao Japão."],
+["MangaDex","Mangá",["Arte e HQ"],["Imagem"],"Multi","Gratuito","https://mangadex.org/","https://mangadex.org/search?q={q}","Grande catálogo com obras oficiais e de comunidade, em vários idiomas."],
+["VIZ","Mangá",["Arte e HQ"],["Imagem","Digital"],"Inglês","Misto","https://www.viz.com/","https://www.viz.com/search?search={q}","Editora oficial de Shonen Jump e outros títulos."],
+["K Manga (Kodansha)","Mangá",["Arte e HQ"],["Imagem","Digital"],"Inglês","Pago","https://kmanga.kodansha.com/",null,"Serviço oficial da Kodansha por assinatura."],
+["WEBTOON","Mangá",["Arte e HQ"],["Imagem"],"Multi","Gratuito","https://www.webtoons.com/","https://www.webtoons.com/en/search?keyword={q}","Webcomics verticais, com muitos títulos em português."],
+["Tapas","Mangá",["Arte e HQ","Literatura"],["Imagem"],"Inglês","Misto","https://tapas.io/","https://tapas.io/search?t=COMICS&q={q}","Quadrinhos e novels de autores independentes."],
+["Comikey","Mangá",["Arte e HQ"],["Imagem"],"Inglês","Misto","https://comikey.com/",null,"Mangá e manhwa licenciados, com capítulos gratuitos."],
+["Panini Brasil","Mangá",["Arte e HQ"],["Impresso","Digital"],"Português","Pago","https://panini.com.br/","https://panini.com.br/catalogsearch/result/?q={q}","Editora de mangás e HQs no Brasil."],
+["JBC","Mangá",["Arte e HQ"],["Impresso","Digital"],"Português","Pago","https://mangasjbc.com.br/","https://mangasjbc.com.br/?s={q}","Editora brasileira de mangás licenciados."],
+["Hoopla","Mangá",["Arte e HQ","Geral"],["Imagem","EPUB","Áudio"],"Inglês","Misto","https://www.hoopladigital.com/",null,"Empréstimo digital via biblioteca parceira."],
+["Internet Archive","Livros",["Geral","História","Literatura"],["PDF","EPUB","Áudio","Imagem"],"Multi","Gratuito","https://archive.org/","https://archive.org/search?query={q}","Milhões de livros, revistas, áudios e páginas arquivadas."],
+["Project Gutenberg","Livros",["Literatura","História"],["EPUB","HTML","Texto"],"Multi","Gratuito","https://www.gutenberg.org/","https://www.gutenberg.org/ebooks/search/?query={q}","Mais de 70 mil clássicos em domínio público."],
+["Domínio Público (MEC)","Livros",["Literatura","Humanas","Geral"],["PDF","Texto","Áudio"],"Português","Gratuito","http://www.dominiopublico.gov.br/",null,"Biblioteca do governo brasileiro com obras, teses e vídeos."],
+["Open Library","Livros",["Geral"],["EPUB","PDF"],"Multi","Gratuito","https://openlibrary.org/","https://openlibrary.org/search?q={q}","Catálogo aberto com empréstimo digital."],
+["Standard Ebooks","Livros",["Literatura"],["EPUB"],"Inglês","Gratuito","https://standardebooks.org/","https://standardebooks.org/ebooks?query={q}","Clássicos com edição cuidadosa e design moderno."],
+["Wikisource (PT)","Livros",["Literatura","História","Humanas"],["HTML","Texto"],"Português","Gratuito","https://pt.wikisource.org/","https://pt.wikisource.org/w/index.php?search={q}","Biblioteca colaborativa de textos livres."],
+["LibriVox","Livros",["Literatura"],["Áudio"],"Multi","Gratuito","https://librivox.org/","https://librivox.org/search?q={q}","Audiolivros de domínio público lidos por voluntários."],
+["Google Livros","Livros",["Geral"],["PDF","HTML"],"Multi","Misto","https://books.google.com/","https://www.google.com/search?tbm=bks&q={q}","Busca em livros com texto completo para obras livres."],
+["Biblioteca Brasiliana Mindlin","Livros",["História","Humanas","Literatura"],["PDF","Imagem"],"Português","Gratuito","https://www.bbm.usp.br/",null,"Acervo digital da USP sobre Brasil e obras raras."],
+["Biblioteca Nacional Digital","Acervos",["História","Humanas","Arte e HQ"],["PDF","Imagem"],"Português","Gratuito","https://bndigital.bn.gov.br/",null,"Acervo digitalizado da Biblioteca Nacional."],
+["Hemeroteca Digital Brasileira","Acervos",["História","Humanas"],["PDF","Imagem"],"Português","Gratuito","https://memoria.bn.gov.br/hdb/",null,"Jornais e revistas brasileiros digitalizados."],
+["Europeana","Acervos",["História","Arte e HQ","Humanas"],["Imagem","PDF","Áudio"],"Multi","Gratuito","https://www.europeana.eu/","https://www.europeana.eu/pt/search?query={q}","Patrimônio cultural de museus e bibliotecas europeias."],
+["Library of Congress","Acervos",["História","Humanas","Arte e HQ"],["Imagem","PDF","Áudio"],"Inglês","Gratuito","https://www.loc.gov/","https://www.loc.gov/search/?q={q}","Coleções digitais da biblioteca do Congresso dos EUA."],
+["HathiTrust","Acervos",["Geral","Humanas","Ciência"],["PDF","Texto"],"Multi","Gratuito","https://babel.hathitrust.org/","https://babel.hathitrust.org/cgi/ls?q1={q}","Repositório de bibliotecas universitárias."],
+["Biodiversity Heritage Library","Acervos",["Ciência"],["PDF","Imagem"],"Multi","Gratuito","https://www.biodiversitylibrary.org/","https://www.biodiversitylibrary.org/search?searchTerm={q}","Literatura histórica de biodiversidade."],
+["SciELO","Artigos",["Ciência","Saúde","Humanas"],["PDF","HTML"],"Multi","Gratuito","https://scielo.org/","https://search.scielo.org/?q={q}","Periódicos científicos ibero-americanos de acesso aberto."],
+["arXiv","Artigos",["Ciência","Tecnologia"],["PDF"],"Inglês","Gratuito","https://arxiv.org/","https://arxiv.org/search/?query={q}","Pré-publicações em física, matemática e computação."],
+["PubMed Central","Artigos",["Saúde","Ciência"],["PDF","HTML"],"Inglês","Gratuito","https://pmc.ncbi.nlm.nih.gov/","https://pmc.ncbi.nlm.nih.gov/search/?term={q}","Artigos biomédicos de texto completo."],
+["BVS / LILACS","Artigos",["Saúde"],["PDF","HTML"],"Multi","Gratuito","https://bvsalud.org/","https://pesquisa.bvsalud.org/portal/?q={q}","Literatura em saúde da América Latina."],
+["DOAJ","Artigos",["Ciência","Humanas","Geral"],["PDF","HTML"],"Multi","Gratuito","https://doaj.org/",null,"Diretório de periódicos de acesso aberto."],
+["CORE","Artigos",["Ciência","Geral"],["PDF"],"Multi","Gratuito","https://core.ac.uk/","https://core.ac.uk/search?q={q}","Agregador de milhões de artigos de repositórios."],
+["Zenodo","Artigos",["Ciência","Tecnologia"],["PDF","Dados"],"Multi","Gratuito","https://zenodo.org/","https://zenodo.org/search?q={q}","Artigos, dados e software de pesquisa."],
+["Google Acadêmico","Artigos",["Geral","Ciência","Humanas"],["PDF","HTML"],"Multi","Misto","https://scholar.google.com/","https://scholar.google.com/scholar?q={q}","Busca ampla em literatura acadêmica."],
+["Semantic Scholar","Artigos",["Ciência","Tecnologia","Saúde"],["PDF"],"Inglês","Gratuito","https://www.semanticscholar.org/","https://www.semanticscholar.org/search?q={q}","Busca com resumos por IA."],
+["BDTD (Teses e Dissertações)","Artigos",["Ciência","Humanas","Saúde"],["PDF"],"Português","Gratuito","https://bdtd.ibict.br/","https://bdtd.ibict.br/vufind/Search/Results?lookfor={q}","Teses e dissertações das universidades brasileiras."],
+["Redalyc","Artigos",["Humanas","Ciência"],["PDF","HTML"],"Multi","Gratuito","https://www.redalyc.org/",null,"Revistas científicas da América Latina."],
+["Periódicos CAPES","Artigos",["Ciência","Saúde","Humanas","Tecnologia"],["PDF"],"Multi","Pago","https://www.periodicos.capes.gov.br/",null,"Portal com acesso via instituição conveniada."]
+].map(a=>({n:a[0],c:a[1],t:a[2],f:a[3],l:a[4],a:a[5],u:a[6],s:a[7],d:a[8]}));
+const $=i=>document.getElementById(i);
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const uniq=f=>[...new Set(D.flatMap(f))].sort((x,y)=>x.localeCompare(y,"pt"));
+const S={cat:"",tema:"",arq:"",idi:"",acc:"",let:""};
+const G=[["tema","Tema",d=>d.t,"f1"],["arq","Arquivo",d=>d.f,"f1"],["idi","Idioma",d=>[d.l],"f2"],["acc","Acesso",d=>[d.a],"f2"]];
+const CATS=["","Mangá","Livros","Artigos","Acervos"];
+const ok=(d,skip)=>{
+ const q=norm($("q").value.trim());
+ if(skip!=="cat"&&S.cat&&d.c!==S.cat)return false;
+ for(const[k,,f]of G)if(S[k]&&!f(d).includes(S[k]))return false;
+ if(S.let&&norm(d.n)[0]!==S.let.toLowerCase())return false;
+ if(q&&!d.s&&!norm([d.n,d.d,d.c,...d.t,...d.f].join(" ")).includes(q))return false;
+ return true};
+const chip=(k,v,l)=>`<button class="chip ${S[k]===v?"on":""}" data-k="${k}" data-v="${v}">${l||v}</button>`;
+let cur=[];
+function render(){
+ $("tabs").innerHTML=CATS.map(c=>`<button class="tab ${S.cat===c?"on":""}" data-k="cat" data-v="${c}">${c||"Tudo"}<small>${D.filter(d=>ok(d,"cat")&&(!c||d.c===c)).length}</small></button>`).join("");
+ for(const id of["f1","f2"])$(id).innerHTML=G.filter(g=>g[3]===id).map(([k,l,f])=>`<div class="frow"><span class="gl">${l}</span><span class="chips">${chip(k,"","Todos")}${uniq(f).map(v=>chip(k,v)).join("")}</span></div>`).join("");
+ $("abc").innerHTML=["Todas",..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(l=>`<button class="let ${(S.let||"Todas")===l?"on":""}" data-k="let" data-v="${l==="Todas"?"":l}">${l}</button>`).join("");
+ cur=D.filter(d=>ok(d)).sort((x,y)=>x.n.localeCompare(y.n,"pt"));
+ const term=$("q").value.trim(),sh=term.length>18?term.slice(0,18)+"…":term;
+ $("cnt").textContent=cur.length+(cur.length===1?" fonte encontrada":" fontes encontradas");
+ $("grid").innerHTML=cur.length?cur.map(d=>`<div class="card"><span class="k">${d.c}</span><h3>${d.n}</h3><p>${d.d}</p><div class="meta">${d.f.join(" · ")} · ${d.l} · ${d.a}</div><div class="meta" style="color:var(--mu)">${d.t.join(", ")}</div><div class="acts">${d.s&&term?`<a class="btn f" target="_blank" rel="noopener" href="${d.s.replace("{q}",encodeURIComponent(term))}">Buscar “${sh}”</a>`:""}<a class="btn" target="_blank" rel="noopener" href="${d.u}">Abrir site</a></div></div>`).join(""):`<div class="empty">Nenhuma fonte com esses filtros.<br>Tente remover algum deles ou use “Limpar tudo”.</div>`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(!b)return;S[b.dataset.k]=b.dataset.v;render()});
+$("q").addEventListener("input",render);
+$("clr").onclick=()=>{$("q").value="";for(const k in S)S[k]="";render()};
+$("all").onclick=()=>{
+ const term=$("q").value.trim();if(!term){alert("Digite um termo na busca primeiro.");$("q").focus();return}
+ const l=cur.filter(d=>d.s).slice(0,6);
+ if(!l.length){alert("Nenhuma fonte filtrada tem busca direta.");return}
+ if(confirm("Abrir "+l.length+" abas de busca?"))l.forEach(d=>window.open(d.s.replace("{q}",encodeURIComponent(term)),"_blank","noopener"));
+};
+render();
+if("serviceWorker" in navigator&&location.protocol.startsWith("http")){try{navigator.serviceWorker.register("sw.js")}catch(e){}}
+</script>
+</body>
+</html>
